@@ -159,18 +159,12 @@
 <p>gin框架使用的是定制版本的httprouter，其路由原理是使用基数树，提取前缀作为父节点的树，压缩字典树。</p>
 <p>为什么不使用hash？例如访问一个url，我们会在路由注册里根据url找到要执行的函数，类似于一一对应关系，url中一般会有路径参数，这样就不太适合去用哈希存储（因为开发中不会使用过多的路由，在我们访问一些资源时就需要加一些参数路径)。这样也可以节省空间，虽然效率可能没有hash快。</p>
 <h2 id="1-Trie-tree-前缀树"><a href="#1-Trie-tree-前缀树" class="headerlink" title="1 Trie tree(前缀树)"></a>1 Trie tree(前缀树)</h2><p>Trie tree，又叫字典树、前缀匹配树(prefix tree)、单词查找树或键树，是一种多叉树形结构，一种哈希树的变种，适合存储key为string，且所有key含有大量公共前缀的map型数据结构，示例如下：</p>
-<img src="https://img-blog.csdnimg.cn/img_convert/a3e735ef0cbb0cf204c987596ac82730.png">
-
-
-
+<p><div class="img-item" data-src="https://img-blog.csdnimg.cn/img_convert/a3e735ef0cbb0cf204c987596ac82730.png" data-sub-html=".caption"><img src="https://img-blog.csdnimg.cn/img_convert/a3e735ef0cbb0cf204c987596ac82730.png" alt="img"><div class="img-caption d-block text-center"><span class="center-caption text-muted border-bottom">img</span></div></div></p>
 <p>trie tree的应用场景：</p>
 <p>字符串排序：构造一颗trie，并且其每个节点的所有子节点的key顺序是按字典序进行排列的，那么按照前序遍历去访问这颗trie，就是有序的字符串。这样排序的时间复杂度和空间复杂度都比较低。<br>字符串匹配：KMP作为最著名的字符串匹配算法，用来判断一个长文本中是否包含某个特定的短文本字符串，其时间复杂度大致等于O(n)，n为长文本的字符数量。假设现在有一堆短文本字符串(m个短文本字符串)，需要找出所有在长文本中存在的短文本字符串（长文本的字符数量为n），应该如何实现？一个简单的思路是对每个短文本字符串调用KMP算法，那么时间复杂度即为O(n<em>m)。但是如果采用trie来实现匹配，其时间复杂度应该介于O(n)和O(n</em>m)之间（具体取决于所有短文本字符串的公共前缀的数量）。<br>索引存储：本质上还是利用trie前缀匹配的特性，在相应的子节点存储上对应数据的存储位置，当用户输入查询条件时，可以快速查找符合用户输入前缀的相应数据，常用于搜索引擎。<br>trie tree有三个重要特性:</p>
 <p>根节点不包含字符，除根节点外每一个节点都只包含一个字符。<br>从根节点到某一节点路径上所有字符连接起来，就是该节点对应的字符串。<br>每个节点任意子节点包含的字符都不相同。</p>
 <h2 id="2-Radix-Tree-压缩前缀树"><a href="#2-Radix-Tree-压缩前缀树" class="headerlink" title="2 Radix Tree(压缩前缀树)"></a>2 Radix Tree(压缩前缀树)</h2><p>基数树（Radix Tree）又称为PAT位树（Patricia Trie or crit bit tree），是一种更节省空间的前缀树（Trie Tree）。<strong>对于基数树的每个节点，如果该节点是唯一的子树的话，就和父节点合并</strong>。下图为一个基数树示例：</p>
-<img src="https://img-blog.csdnimg.cn/img_convert/288173e1524f4b7744d7f6e1da05852c.png">
-
-
-
+<p><div class="img-item" data-src="https://img-blog.csdnimg.cn/img_convert/288173e1524f4b7744d7f6e1da05852c.png" data-sub-html=".caption"><img src="https://img-blog.csdnimg.cn/img_convert/288173e1524f4b7744d7f6e1da05852c.png" alt="img"><div class="img-caption d-block text-center"><span class="center-caption text-muted border-bottom">img</span></div></div></p>
 <p>Radix Tree可以被认为是一棵简洁版的前缀树。其注册路由的过程就是构造前缀树的过程，具有公共前缀的节点也共享一个公共父节点。假设注册以下路由信息：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">r := gin.Default()</span><br><span class="line"></span><br><span class="line">r.GET(<span class="string">&quot;/&quot;</span>, func1)</span><br><span class="line">r.GET(<span class="string">&quot;/search/&quot;</span>, func2)</span><br><span class="line">r.GET(<span class="string">&quot;/support/&quot;</span>, func3)</span><br><span class="line">r.GET(<span class="string">&quot;/blog/&quot;</span>, func4)</span><br><span class="line">r.GET(<span class="string">&quot;/blog/:post/&quot;</span>, func5)</span><br><span class="line">r.GET(<span class="string">&quot;/about-us/&quot;</span>, func6)</span><br><span class="line">r.GET(<span class="string">&quot;/about-us/team/&quot;</span>, func7)</span><br><span class="line">r.GET(<span class="string">&quot;/contact/&quot;</span>, func8)</span><br></pre></td></tr></table></figure>
 
@@ -192,10 +186,7 @@
 <p>path自动修正，例如&#x2F;&#x2F;foo转化成&#x2F;foo</p>
 <h3 id="4-2-httprouter原理"><a href="#4-2-httprouter原理" class="headerlink" title="4.2 httprouter原理"></a>4.2 httprouter原理</h3><p>httprouter使用的数据结构就是压缩字典树。</p>
 <p>典型的压缩字典树结构如下：</p>
-<img src="https://img-blog.csdnimg.cn/img_convert/688a3759721ded28c64921cc6c8be40f.png">
-
-
-
+<p><div class="img-item" data-src="https://img-blog.csdnimg.cn/img_convert/688a3759721ded28c64921cc6c8be40f.png" data-sub-html=".caption"><img src="https://img-blog.csdnimg.cn/img_convert/688a3759721ded28c64921cc6c8be40f.png" alt="img"><div class="img-caption d-block text-center"><span class="center-caption text-muted border-bottom">img</span></div></div></p>
 <p>可以看到压缩字典树每个节点不只是一个字母，使用压缩字典树可以有效地减少树的层数，所以程序的局部性较好，从而对CPU友好。</p>
 <h2 id="5-源码解读"><a href="#5-源码解读" class="headerlink" title="5 源码解读"></a>5 源码解读</h2><p>gin版本 github.com&#x2F;gin-gonic&#x2F;gin   v1.6.3</p>
 <h3 id="5-1路由树节点"><a href="#5-1路由树节点" class="headerlink" title="5.1路由树节点"></a>5.1路由树节点</h3><p>路由树是由一个个节点构成的，gin框架路由树的节点由<code>node</code>结构体表示，它有以下字段：</p>
