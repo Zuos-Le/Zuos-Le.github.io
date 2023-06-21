@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<!--Description-->
+
+
+
+    <meta name="description" content="分布式ID生成器分布式ID的特点
+全局唯⼀性：不能出现有重复的ID标识，这是基本要求。
+递增性：确保⽣成ID对于⽤户或业务是递增的。
+⾼可⽤性：确保任何时候都能⽣成正确的ID。
+⾼性能性：在⾼并发的环境下依然表现良好。
+
+不仅仅是⽤于⽤户ID，实际互联⽹中有很多场景需要能够⽣成类似MySQL⾃增ID"/>
+
+
+<!--Author-->
+
+    <meta name="author" content="John Doe"/>
+
+
+<!--Open Graph Title-->
+
+    <meta property="og:title" content="分布式ID生成器（snowflake算法）"/>
+
+
+<!--Open Graph Description-->
+
+    <meta property="og:description" content="分布式ID生成器分布式ID的特点
+全局唯⼀性：不能出现有重复的ID标识，这是基本要求。
+递增性：确保⽣成ID对于⽤户或业务是递增的。
+⾼可⽤性：确保任何时候都能⽣成正确的ID。
+⾼性能性：在⾼并发的环境下依然表现良好。
+
+不仅仅是⽤于⽤户ID，实际互联⽹中有很多场景需要能够⽣成类似MySQL⾃增ID"/>
+
+
+<!--Open Graph Site Name-->
+    <meta property="og:site_name" content="笔记"/>
+
+<!--Type page-->
+
+    <meta property="og:type" content="article"/>
+
+
+<!--Page Cover-->
+
+
+    <meta property="og:image" content="http://example.com/img/home-bg.jpg"/>
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+
+
+
+
+    <meta name="twitter:image" content="http://example.com/img/home-bg.jpg"/>
+
+
+<!-- Title -->
+
+<title>分布式ID生成器（snowflake算法） | 笔记</title>
+
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+
+<!-- Custom CSS -->
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<!-- Custom Fonts -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.0/css/all.min.css" />
+<link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.0/css/all.min.css" />
+<link href="//fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- Gallery -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/featherlight@1.4.0/src/featherlight.css" integrity="sha256-30DV/STftlyQ6v8yaOWlabammvCYtRJERLj/m0b3zno=" crossorigin="anonymous">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/lightgallery@1.6.11/dist/css/lightgallery.min.css">
+
+<!-- favicon -->
+
+<link rel="icon" href="/img/favicon.png"/>
+
+
+
+    <!-- Google Analytics -->
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- Head tag -->
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top bg-transparent position-absolute w-100 p-0" id="nav">
+    <div class="container pl-0 pr-0">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <a class="navbar-brand text-white p-1 pl-3" href="/">Zuos</a>
+        </div>
+        <div class="navbar-nav float-right">
+            <button class="btn btn-link search-btn navbar-item" data-toggle="modal" data-target="#searchModal">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 text-center">
+                <div class="post-heading text-white">
+                    <h1>分布式ID生成器（snowflake算法）</h1>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Main Content -->
+            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+                
+                    <span class="meta d-inline-block">
+    
+    
+    <!-- Date -->
+    
+        <span class="post-meta-split">&nbsp;|&nbsp;</span>
+        <i class="far fa-calendar-check fa-fw"></i>
+        2023-06-22
+    
+    <!-- word count and read count -->
+    
+
+    
+
+    
+</span>  
+                
+                <meta name="referrer" content="no-referrer"/>
+
+<h2 id="分布式ID生成器"><a href="#分布式ID生成器" class="headerlink" title="分布式ID生成器"></a>分布式ID生成器</h2><h3 id="分布式ID的特点"><a href="#分布式ID的特点" class="headerlink" title="分布式ID的特点"></a>分布式ID的特点</h3><ul>
+<li>全局唯⼀性：不能出现有重复的ID标识，这是基本要求。</li>
+<li>递增性：确保⽣成ID对于⽤户或业务是递增的。</li>
+<li>⾼可⽤性：确保任何时候都能⽣成正确的ID。</li>
+<li>⾼性能性：在⾼并发的环境下依然表现良好。</li>
+</ul>
+<p>不仅仅是⽤于⽤户ID，实际互联⽹中有很多场景需要能够⽣成类似MySQL⾃增ID这样不断增⼤，同时⼜</p>
+<p>不会重复的id。以⽀持业务中的⾼并发场景。</p>
+<p>⽐较典型的场景有：电商促销时短时间内会有⼤量的订单涌⼊到系统，⽐如每秒10w+；明星出轨时微</p>
+<p>博短时间内会产⽣⼤量的相关微博转发和评论消息。在这些业务场景下将数据插⼊数据库之前，我们需</p>
+<p>要给这些订单和消息先分配⼀个唯⼀ID，然后再保存到数据库中。对这个id的要求是希望其中能带有⼀</p>
+<p>些时间信息，这样即使我们后端的系统对消息进⾏了分库分表，也能够以时间顺序对这些消息进⾏排</p>
+<p>序。</p>
+<h3 id="snowflake算法介绍"><a href="#snowflake算法介绍" class="headerlink" title="snowflake算法介绍"></a>snowflake算法介绍</h3><p>雪花算法有以下几个优点：</p>
+<ul>
+<li>高并发分布式环境下生成不重复 id，每秒可生成百万个不重复 id。</li>
+<li>基于时间戳，以及同一时间戳下序列号自增，基本保证 id 有序递增。</li>
+<li>不依赖第三方库或者中间件。</li>
+<li>算法简单，在内存中进行，效率高。</li>
+</ul>
+<p>雪花算法有如下缺点：</p>
+<ul>
+<li>依赖服务器时间，服务器时钟回拨时可能会生成重复 id。算法中可通过记录最后一个生成 id 时的时间戳来解决，每次生成 id 之前比较当前服务器时钟是否被回拨，避免生成重复 id。</li>
+</ul>
+<p>雪花算法是Twitter开源的由64位整数组成分布式ID，性能较⾼，并且在单机上递增。</p>
+<p><div class="img-item" data-src="https://img-blog.csdnimg.cn/img_convert/5ba368daed80d653109e77940df2d255.webp?x-oss-process=image/format,png" data-sub-html=".caption"><img src="https://img-blog.csdnimg.cn/img_convert/5ba368daed80d653109e77940df2d255.webp?x-oss-process=image/format,png" alt="img"><div class="img-caption d-block text-center"><span class="center-caption text-muted border-bottom">img</span></div></div></p>
+<p><strong>1.第⼀位</strong> 占⽤1bit，其值始终是0，没有实际作⽤。</p>
+<p><strong>2.时间戳</strong> 占⽤41bit，单位为毫秒，总共可以容纳约69年的时间。当然，我们的时间毫秒计数不会真的</p>
+<p>从1970年开始记，那样我们的系统跑到 2039&#x2F;9&#x2F;7 23:47:35 就不能⽤了，所以这⾥的时间戳只是相对</p>
+<p>于某个时间的增量，⽐如我们的系统上线是2020-07-01，那么我们完全可以把这个timestamp当作是</p>
+<p>从 2020-07-01 00:00:00.000 的偏移量。</p>
+<p><strong>3.工作机器id</strong> 占⽤10bit，其中⾼位5bit是数据中⼼ID，低位5bit是⼯作节点ID，最多可以容纳1024个节</p>
+<p>点。</p>
+<p><strong>4.序列号</strong> 占⽤12bit，⽤来记录同毫秒内产⽣的不同id。每个节点每毫秒0开始不断累加，最多可以累加</p>
+<p>到4095，同⼀毫秒⼀共可以产⽣4096个ID。</p>
+<p>SnowFlake算法在同⼀毫秒内最多可以⽣成多少个全局唯⼀ID呢？</p>
+<p><strong>同⼀毫秒的ID数量&#x3D; 1024 X 4096 &#x3D; 4194304</strong></p>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>其实雪花算法每一部分占用的比特位数量并不是固定死的。例如你的业务可能达不到 69 年之久，那么可用减少时间戳占用的位数，雪花算法服务需要部署的节点超过1024 台，那么可将减少的位数补充给机器码用。</p>
+<p>注意，雪花算法中 41 位比特位不是直接用来存储当前服务器毫秒时间戳的，而是需要当前服务器时间戳减去某一个初始时间戳值，一般可以使用服务上线时间作为初始时间戳值。</p>
+<p>对于机器码，可根据自身情况做调整，例如机房号，服务器号，业务号，机器 IP 等都是可使用的。对于部署的不同雪花算法服务中，最后计算出来的机器码能区分开来即可。</p>
+<p><strong>snowflflake的Go实现</strong></p>
+<p><strong>1.</strong> <strong><a target="_blank" rel="noopener" href="https://github.com/bwmarrin/snowflflake">https://github.com/bwmarrin/snowflflake</a></strong></p>
+<p>github.com&#x2F;bwmarrin&#x2F;snowflflake是⼀个相当轻量化的snowflflake的Go实现。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">    <span class="string">&quot;github.com/bwmarrin/snowflake&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node *snowflake.Node</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Init</span><span class="params">(startTime <span class="type">string</span>, machineID <span class="type">int64</span>)</span></span> (err <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> st time.Time</span><br><span class="line">    st, err = time.Parse(<span class="string">&quot;2006-01-02&quot;</span>, startTime)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    	<span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    snowflake.Epoch = st.UnixNano() / <span class="number">1000000</span></span><br><span class="line">    node, err = snowflake.NewNode(machineID)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GenID</span><span class="params">()</span></span> <span class="type">int64</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> node.Generate().Int64()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> err := Init(<span class="string">&quot;2020-07-01&quot;</span>, <span class="number">1</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;init failed, err:%v\n&quot;</span>, err)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">    id := GenID()</span><br><span class="line">    fmt.Println(id)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+            </div>
+
+            <!-- Post information -->
+            
+            
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+        <ul class="pagination d-block text-center">
+            
+            
+                <li class="next page-item d-inline"><a href="/2023/06/20/gin%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" class="page-link float-right">Older  &rarr;</a></li>
+            
+        </ul>
+    </div>
+
+
+            
+                <!-- Comments -->
+                
+
+                
+
+            
+
+        </div>
+    </div>
+</article> 
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    <style>
+        #toc-content .toc-link::before {
+            background-color: transparent;
+            max-height: 25px;
+        }
+
+        #toc-content .toc-link.is-active-link::before {
+            background-color: #404040;
+        }
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <div class="ui-toc dropup scrollspy-body pull-right" style="right: 3%;">
+        <button type="button" class="toc-btn btn btn-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+            <i class="fas fa-list"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right p-2"  aria-labelledby="tocLabel">
+            <div class="toc-widget">
+                <div id="toc-content" class="text-truncate">
+                </div>
+            </div>
+            <div class="toc-menu pt-3 pl-4">
+                <a class="expand-toggle d-block py-1" href="#"><span class="expand-text">Expand all</span><span class="close-text" style="display: none;">Collapse all</span></a>
+                <a class="back-to-top d-block py-1" href="#">Back to top</a>
+                <a class="go-to-bottom d-block py-1" href="#">Go to bottom</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        tocbot.init({
+            // Where to render the table of contents.
+            tocSelector: '#toc-content',
+            // Where to grab the headings to build the table of contents.
+            contentSelector: 'article',
+            // Which headings to grab inside of the contentSelector element.
+            headingSelector: 'h1, h2, h3',
+            // For headings inside relative or absolute positioned containers within content.
+            hasInnerContainers: true,
+        });
+    </script>
+
+
+    
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 text-center">
+                <ul class="list-inline">
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <ul class="copyright footer-menu list-inline">
+                    
+                    
+                        <li class="list-inline-item">
+                            
+                            
+                            <a href="/">
+                                
+                                    Home
+                                
+                            </a>
+                        </li>
+                    
+                        <li class="list-inline-item">
+                            
+                                <span class="copyright-split">&nbsp;|&nbsp;</span>
+                            
+                            
+                            <a href="/archives">
+                                
+                                    Archives
+                                
+                            </a>
+                        </li>
+                    
+                        <li class="list-inline-item">
+                            
+                                <span class="copyright-split">&nbsp;|&nbsp;</span>
+                            
+                            
+                            <a href="/tags">
+                                
+                                    Tags
+                                
+                            </a>
+                        </li>
+                    
+                        <li class="list-inline-item">
+                            
+                                <span class="copyright-split">&nbsp;|&nbsp;</span>
+                            
+                            
+                            <a href="/categories">
+                                
+                                    Categories
+                                
+                            </a>
+                        </li>
+                    
+                        <li class="list-inline-item">
+                            
+                                <span class="copyright-split">&nbsp;|&nbsp;</span>
+                            
+                            
+                            <a href="/about">
+                                
+                                    About
+                                
+                            </a>
+                        </li>
+                    
+                </ul>
+                <p class="copyright footer-author">
+                    &copy; -2023 
+                    <a rel="external" class="copyright-link" href="" target="_blank">John Doe</a><br/>
+                    Powered by <a rel="external" class="copyright-link" href="https://hexo.io/" target="_blank">Hexo</a>  
+                    <span class="copyright-split">&nbsp;|&nbsp;&nbsp;</span>
+                    Theme <a rel="external" class="copyright-link" href="https://github.com/luswdev/hexo-theme-clean.git" target="_blank">Clean</a>
+                    
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    <!-- jQuery -->
+<script src="//cdn.jsdelivr.net/npm/jquery@2.1.4/dist/jquery.min.js"></script>
+
+<!-- For drop down -->
+<script src="//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+<!-- Gallery -->
+<script src="//cdn.jsdelivr.net/npm/lightgallery@1.6.11/dist/js/lightgallery-all.min.js"></script>
+<!-- Busuanzi -->
+
+
+<!-- Search script -->
+
+<script src="/js/search.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        searchFunc( '/search.xml' , 'searchInput', 'searchResult');
+    });
+</script>
+
+
+
+<script src="/js/main.js"></script>
+
+
+
+    <!-- Search Modal -->
+    <!-- Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content overflow-auto">
+            <div class="modal-header">
+                <input type="text" class="form-control" placeholder="Searching Keywords..." id="searchInput">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="searchResult">
+                    <div class="search-empty text-center text-muted p-5">
+                        <i class="far fa-meh"></i>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
