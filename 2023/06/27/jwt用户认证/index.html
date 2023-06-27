@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<!--Description-->
+
+
+
+    <meta name="description" content="用户认证HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同
+⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可
+⽤⽅案，并且各有千秋。
+Cookie- Session 认证模式
+在 Web 应⽤发展的初期，"/>
+
+
+<!--Author-->
+
+    <meta name="author" content="John Doe"/>
+
+
+<!--Open Graph Title-->
+
+    <meta property="og:title" content="jwt用户认证"/>
+
+
+<!--Open Graph Description-->
+
+    <meta property="og:description" content="用户认证HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同
+⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可
+⽤⽅案，并且各有千秋。
+Cookie- Session 认证模式
+在 Web 应⽤发展的初期，"/>
+
+
+<!--Open Graph Site Name-->
+    <meta property="og:site_name" content="笔记"/>
+
+<!--Type page-->
+
+    <meta property="og:type" content="article"/>
+
+
+<!--Page Cover-->
+
+
+    <meta property="og:image" content="http://example.com/img/home-bg.jpg"/>
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+
+
+
+
+    <meta name="twitter:image" content="http://example.com/img/home-bg.jpg"/>
+
+
+<!-- Title -->
+
+<title>jwt用户认证 | 笔记</title>
+
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+
+<!-- Custom CSS -->
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<!-- Custom Fonts -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.0/css/all.min.css" />
+<link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.0/css/all.min.css" />
+<link href="//fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- Gallery -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/featherlight@1.4.0/src/featherlight.css" integrity="sha256-30DV/STftlyQ6v8yaOWlabammvCYtRJERLj/m0b3zno=" crossorigin="anonymous">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/lightgallery@1.6.11/dist/css/lightgallery.min.css">
+
+<!-- favicon -->
+
+<link rel="icon" href="/img/favicon.png"/>
+
+
+
+    <!-- Google Analytics -->
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- Head tag -->
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top bg-transparent position-absolute w-100 p-0" id="nav">
+    <div class="container pl-0 pr-0">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <a class="navbar-brand text-white p-1 pl-3" href="/">Zuos</a>
+        </div>
+        <div class="navbar-nav float-right">
+            <button class="btn btn-link search-btn navbar-item" data-toggle="modal" data-target="#searchModal">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 text-center">
+                <div class="post-heading text-white">
+                    <h1>jwt用户认证</h1>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Main Content -->
+            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+                
+                    <span class="meta d-inline-block">
+    
+    
+    <!-- Date -->
+    
+        <span class="post-meta-split">&nbsp;|&nbsp;</span>
+        <i class="far fa-calendar-check fa-fw"></i>
+        2023-06-27
+    
+    <!-- word count and read count -->
+    
+
+    
+
+    
+</span>  
+                
+                <meta name="referrer" content="no-referrer"/>
+
+<h2 id="用户认证"><a href="#用户认证" class="headerlink" title="用户认证"></a><strong>用户认证</strong></h2><p>HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同</p>
+<p>⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可</p>
+<p>⽤⽅案，并且各有千秋。</p>
+<p><strong>Cookie- Session</strong> <strong>认证模式</strong></p>
+<p>在 Web 应⽤发展的初期，⼤部分采⽤基于Cookie-Session 的会话管理⽅式，逻辑如下。</p>
+<p>客户端使⽤⽤户名、密码进⾏认证</p>
+<p>服务端验证⽤户名、密码正确后⽣成并存储 Session，将 SessionID 通过 Cookie 返回给客户端</p>
+<p>客户端访问需要认证的接⼝时在 Cookie 中携带 SessionID</p>
+<p>服务端通过 SessionID 查找 Session 并进⾏鉴权，返回给客户端需要的数据</p>
+<p><div class="img-item" data-src="https://pic1.zhimg.com/v2-7f07a20d4e87296db5305d332a562b34_r.jpg" data-sub-html=".caption"><img src="https://pic1.zhimg.com/v2-7f07a20d4e87296db5305d332a562b34_r.jpg" alt="cookie-session认证模式"><div class="img-caption d-block text-center"><span class="center-caption text-muted border-bottom">cookie-session认证模式</span></div></div></p>
+<p>基于 Session 的⽅式存在多种问题。</p>
+<ul>
+<li><p>服务端需要存储 Session，并且由于 Session 需要经常快速查找，通常存储在内存或内存数据库</p>
+<p>中，同时在线⽤户较多时需要占⽤⼤量的服务器资源。</p>
+</li>
+<li><p>当需要扩展时，创建 Session 的服务器可能不是验证 Session 的服务器，所以还需要将所有</p>
+<p>Session 单独存储并共享。</p>
+</li>
+<li><p>由于客户端使⽤ Cookie 存储 SessionID，在跨域场景下需要进⾏兼容性处理，同时这种⽅式也难</p>
+<p>以防范 CSRF 攻击。</p>
+</li>
+</ul>
+<p><strong>Token</strong> <strong>认证模式</strong></p>
+<p>鉴于基于 Session 的会话管理⽅式存在上述多个缺点，基于 Token 的⽆状态会话管理⽅式诞⽣了，所谓</p>
+<p>⽆状态，就是服务端可以不再存储信息，甚⾄是不再存储 Session，逻辑如下。</p>
+<ul>
+<li>客户端使⽤⽤户名、密码进⾏认证</li>
+<li>服务端验证⽤户名、密码正确后⽣成 Token 返回给客户端</li>
+<li>客户端保存 Token，访问需要认证的接⼝时在 URL 参数或 HTTP Header 中加⼊ Token</li>
+<li>服务端通过解码 Token 进⾏鉴权，返回给客户端需要的数据</li>
+</ul>
+<p><div class="img-item" data-src="https://img-blog.csdnimg.cn/6303cf4e0c2446b2afe847310264949b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pio5aSp55qE5YWJ,size_20,color_FFFFFF,t_70,g_se,x_16" data-sub-html=".caption"><img src="https://img-blog.csdnimg.cn/6303cf4e0c2446b2afe847310264949b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pio5aSp55qE5YWJ,size_20,color_FFFFFF,t_70,g_se,x_16" alt="token认证模式"><div class="img-caption d-block text-center"><span class="center-caption text-muted border-bottom">token认证模式</span></div></div></p>
+<p><strong>JWT介绍</strong></p>
+<p>JWT 是 JSON Web Token 的缩写，是为了在⽹络应⽤环境间传递声明⽽执⾏的⼀种基于JSON的开放标</p>
+<p>准（(RFC 7519)。JWT 本身没有定义任何技术实现，它只是定义了⼀种基于 Token 的会话管理的规则，</p>
+<p>涵盖 Token 需要包含的标准内容和 Token 的⽣成过程，特别适⽤于分布式站点的单点登录（SSO）场</p>
+<p>景。。</p>
+<p>⼀个 JWT Token 就像这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyODAxODcyNzQ4ODMyMzU4NSwiZ</span><br><span class="line">XhwIjoxNTk0NTQwMjkxLCJpc3MiOiJibHVlYmVsbCJ9.lk_ZrAtYGCeZhK3iupHxP1kgjBJzQTVTtX</span><br><span class="line">0iZYFx9wU</span><br></pre></td></tr></table></figure>
+
+<p>它是由 <code>.</code> 分隔的三部分组成，这三部分依次是：</p>
+<ul>
+<li>头部（Header）</li>
+<li>负载（Payload）</li>
+<li>签名（Signature）</li>
+</ul>
+<p>头部和负载以 JSON 形式存在，这就是 JWT 中的 JSON，三部分的内容都分别单独经过了 Base64 编</p>
+<p>码，以 <code>.</code> 拼接成⼀个 JWT Token。</p>
+<h3 id="在gin框架中使用JWT"><a href="#在gin框架中使用JWT" class="headerlink" title="在gin框架中使用JWT"></a>在gin框架中使用JWT</h3><p>使用开源社区库   github.com&#x2F;dgrijalva&#x2F;jwt-go</p>
+<p>注册路由，指定HandlerFunc：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r.POST(<span class="string">&quot;/auth&quot;</span>, authHandler)</span><br></pre></td></tr></table></figure>
+
+<p>生成token：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyClaims <span class="keyword">struct</span> &#123;</span><br><span class="line">	Username <span class="type">string</span> <span class="string">`json:&quot;username&quot;`</span></span><br><span class="line">	jwt.StandardClaims</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// GenToken 生成JWT</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GenToken</span><span class="params">(username <span class="type">string</span>)</span></span> (<span class="type">string</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">// 创建一个我们自己的声明</span></span><br><span class="line">	c := MyClaims&#123;</span><br><span class="line">		username, <span class="comment">// 自定义字段</span></span><br><span class="line">		jwt.StandardClaims&#123;</span><br><span class="line">			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), <span class="comment">// 过期时间</span></span><br><span class="line">			Issuer:    <span class="string">&quot;my-project&quot;</span>,                               <span class="comment">// 签发人</span></span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 使用指定的签名方法创建签名对象</span></span><br><span class="line">	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)</span><br><span class="line">	<span class="comment">// 使用指定的secret签名并获得完整的编码后的字符串token</span></span><br><span class="line">	<span class="keyword">return</span> token.SignedString(MySecret)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解析JWT：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ParseToken 解析JWT</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ParseToken</span><span class="params">(tokenString <span class="type">string</span>)</span></span> (*MyClaims, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">// 解析token</span></span><br><span class="line">	token, err := jwt.ParseWithClaims(tokenString, &amp;MyClaims&#123;&#125;, </span><br><span class="line">    <span class="function"><span class="keyword">func</span><span class="params">(token *jwt.Token)</span></span>(i <span class="keyword">interface</span>&#123;&#125;, err <span class="type">error</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> MySecret, <span class="literal">nil</span></span><br><span class="line">	&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> claims, ok := token.Claims.(*MyClaims); ok &amp;&amp; token.Valid &#123; <span class="comment">// 校验token</span></span><br><span class="line">		<span class="keyword">return</span> claims, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, errors.New(<span class="string">&quot;invalid token&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回请求响应，携带token：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">authHandler</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">	<span class="comment">// 用户发送用户名和密码过来</span></span><br><span class="line">	<span class="keyword">var</span> user UserInfo</span><br><span class="line">	err := c.ShouldBind(&amp;user)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">			<span class="string">&quot;code&quot;</span>: <span class="number">2001</span>,</span><br><span class="line">			<span class="string">&quot;msg&quot;</span>:  <span class="string">&quot;无效的参数&quot;</span>,</span><br><span class="line">		&#125;)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 校验用户名和密码是否正确</span></span><br><span class="line">	<span class="keyword">if</span> user.Username == <span class="string">&quot;zuos&quot;</span> &amp;&amp; user.Password == <span class="string">&quot;123&quot;</span> &#123;</span><br><span class="line">		<span class="comment">// 生成Token</span></span><br><span class="line">		tokenString, _ := GenToken(user.Username)</span><br><span class="line">		c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">			<span class="string">&quot;code&quot;</span>: <span class="number">2000</span>,</span><br><span class="line">			<span class="string">&quot;msg&quot;</span>:  <span class="string">&quot;success&quot;</span>,</span><br><span class="line">			<span class="string">&quot;data&quot;</span>: gin.H&#123;<span class="string">&quot;token&quot;</span>: tokenString&#125;,</span><br><span class="line">		&#125;)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">		<span class="string">&quot;code&quot;</span>: <span class="number">2002</span>,</span><br><span class="line">		<span class="string">&quot;msg&quot;</span>:  <span class="string">&quot;鉴权失败&quot;</span>,</span><br><span class="line">	&#125;)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用户通过上面的接口获取Token之后，后续就会携带着Token再来请求我们的其他接口，这个时候就需要对这些请求的Token进行校验操作了，很显然我们应该实现一个检验Token的中间件，具体实现如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// JWTAuthMiddleware 基于JWT的认证中间件</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">JWTAuthMiddleware</span><span class="params">()</span></span> <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		<span class="comment">// 客户端携带Token有三种方式 1.放在请求头 2.放在请求体 3.放在URI</span></span><br><span class="line">		<span class="comment">// 这里假设Token放在Header的Authorization中，并使用Bearer开头</span></span><br><span class="line">		<span class="comment">// 这里的具体实现方式要依据你的实际业务情况决定</span></span><br><span class="line">		authHeader := c.Request.Header.Get(<span class="string">&quot;Authorization&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> authHeader == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">			c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">				<span class="string">&quot;code&quot;</span>: <span class="number">2003</span>,</span><br><span class="line">				<span class="string">&quot;msg&quot;</span>:  <span class="string">&quot;请求头中auth为空&quot;</span>,</span><br><span class="line">			&#125;)</span><br><span class="line">			c.Abort()</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 按空格分割</span></span><br><span class="line">		parts := strings.SplitN(authHeader, <span class="string">&quot; &quot;</span>, <span class="number">2</span>)</span><br><span class="line">		<span class="keyword">if</span> !(<span class="built_in">len</span>(parts) == <span class="number">2</span> &amp;&amp; parts[<span class="number">0</span>] == <span class="string">&quot;Bearer&quot;</span>) &#123;</span><br><span class="line">			c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">				<span class="string">&quot;code&quot;</span>: <span class="number">2004</span>,</span><br><span class="line">				<span class="string">&quot;msg&quot;</span>:  <span class="string">&quot;请求头中auth格式有误&quot;</span>,</span><br><span class="line">			&#125;)</span><br><span class="line">			c.Abort()</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// parts[1]是获取到的tokenString，我们使用之前定义好的解析JWT的函数来解析它</span></span><br><span class="line">		mc, err := ParseToken(parts[<span class="number">1</span>])</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">				<span class="string">&quot;code&quot;</span>: <span class="number">2005</span>,</span><br><span class="line">				<span class="string">&quot;msg&quot;</span>:  <span class="string">&quot;无效的Token&quot;</span>,</span><br><span class="line">			&#125;)</span><br><span class="line">			c.Abort()</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 将当前请求的username信息保存到请求的上下文c上</span></span><br><span class="line">		c.Set(<span class="string">&quot;username&quot;</span>, mc.Username)</span><br><span class="line">		c.Next() <span class="comment">// 后续的处理函数可以用过c.Get(&quot;username&quot;)来获取当前请求的用户信息</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Access-Token-和-Refresh-Token"><a href="#Access-Token-和-Refresh-Token" class="headerlink" title="Access Token 和 Refresh Token"></a>Access Token 和 Refresh Token</h4><p>在 OAuth 2.0 授权协议中, 有两个令牌 token , 分别是 access_token 和 refresh_token, 为什么已经有了 access_token, 还需要 refresh_token 呢?</p>
+<h5 id="access-token："><a href="#access-token：" class="headerlink" title="access_token："></a>access_token：</h5><p>访问令牌是用于访问受保护资源的凭据。访问令牌是表示颁发给客户端的授权的字符串。字符串通常对客户端是不透明的。令牌表示特定的访问范围和持续时间，由资源所有者授予，并由资源服务器和授权服务器强制执行。</p>
+<p>令牌可以表示用于检索授权信息的标识符，或者可以以可验证的方式自包含授权信息（即，由一些数据和签名组成的令牌串）。</p>
+<p>访问令牌提供了一个抽象层，用资源服务器可以理解的单个令牌替换不同的授权结构（例如，用户名和密码）。这种抽象使得发布访问令牌比用于获取访问令牌的授权更具限制性，并消除了资源服务器理解广泛身份验证方法的需要。</p>
+<p>基于资源服务器安全要求，访问令牌可以具有不同的格式、结构和使用方法（例如，加密属性）。</p>
+<h5 id="refresh-token："><a href="#refresh-token：" class="headerlink" title="refresh_token："></a>refresh_token：</h5><p>刷新令牌是用于获取访问令牌的凭据。刷新令牌由授权服务器颁发给客户端，用于在当前访问令牌无效或过期时获得新的访问令牌，或用于获得具有相同或更窄范围的附加访问令牌（访问令牌的生存期可能比资源所有者授权的生存期更短，权限更少）。根据授权服务器的判断，发布刷新令牌是可选的。如果授权服务器发布刷新令牌，则在发布访问令牌时会包含该令牌。</p>
+<p>刷新令牌是一个字符串，表示资源所有者授予客户端的授权。字符串通常对客户端是不透明的。令牌表示用于检索授权信息的标识符。与访问令牌不同，刷新令牌仅用于授权服务器，从不发送到资源服务器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">+--------+                                           +---------------+</span><br><span class="line">|        |--(A)------- Authorization Grant ---------&gt;|               |</span><br><span class="line">|        |                                           |               |</span><br><span class="line">|        |&lt;-(B)----------- Access Token -------------|               |</span><br><span class="line">|        |               &amp; Refresh Token             |               |</span><br><span class="line">|        |                                           |               |</span><br><span class="line">|        |                            +----------+   |               |</span><br><span class="line">|        |--(C)---- Access Token ----&gt;|          |   |               |</span><br><span class="line">|        |                            |          |   |               |</span><br><span class="line">|        |&lt;-(D)- Protected Resource --| Resource |   | Authorization |</span><br><span class="line">| Client |                            |  Server  |   |     Server    |</span><br><span class="line">|        |--(E)---- Access Token ----&gt;|          |   |               |</span><br><span class="line">|        |                            |          |   |               |</span><br><span class="line">|        |&lt;-(F)- Invalid Token Error -|          |   |               |</span><br><span class="line">|        |                            +----------+   |               |</span><br><span class="line">|        |                                           |               |</span><br><span class="line">|        |--(G)----------- Refresh Token -----------&gt;|               |</span><br><span class="line">|        |                                           |               |</span><br><span class="line">|        |&lt;-(H)----------- Access Token -------------|               |</span><br><span class="line">+--------+           &amp; Optional Refresh Token        +---------------+</span><br></pre></td></tr></table></figure>
+
+<p><strong>生成access token和refresh token</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GenToken ⽣成access token 和 refresh token</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GenToken</span><span class="params">(userID <span class="type">int64</span>)</span></span> (aToken, rToken <span class="type">string</span>, err <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="comment">// 创建⼀个我们⾃⼰的声明</span></span><br><span class="line">    c := MyClaims&#123;</span><br><span class="line">        userID, <span class="comment">// ⾃定义字段</span></span><br><span class="line">        jwt.StandardClaims&#123;</span><br><span class="line">            ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), <span class="comment">// 过期时间</span></span><br><span class="line">            Issuer: <span class="string">&quot;zuos&quot;</span>, <span class="comment">// 签发⼈</span></span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 加密并获得完整的编码后的字符串token</span></span><br><span class="line">    aToken,err = jwt.NewWithClaims(jwt.SigningMethodHS256,c).SignedString(mySecret)</span><br><span class="line">    <span class="comment">// refresh token 不需要存任何⾃定义数据</span></span><br><span class="line">    rToken, err = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims&#123;</span><br><span class="line">        ExpiresAt: time.Now().Add(time.Second * <span class="number">30</span>).Unix(), <span class="comment">// 过期时间</span></span><br><span class="line">        Issuer: <span class="string">&quot;bluebell&quot;</span>, <span class="comment">// 签发⼈</span></span><br><span class="line">    &#125;).SignedString(mySecret)</span><br><span class="line">	<span class="comment">// 使⽤指定的secret签名并获得完整的编码后的字符串token</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解析access token</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ParseToken 解析JWT</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ParseToken</span><span class="params">(tokenString <span class="type">string</span>)</span></span> (claims *MyClaims, err <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="comment">// 解析token</span></span><br><span class="line">    <span class="keyword">var</span> token *jwt.Token</span><br><span class="line">    claims = <span class="built_in">new</span>(MyClaims)</span><br><span class="line">    token, err = jwt.ParseWithClaims(tokenString, claims, keyFunc)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    	<span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> !token.Valid &#123; <span class="comment">// 校验token</span></span><br><span class="line">    	err = errors.New(<span class="string">&quot;invalid token&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>refresh token</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RefreshToken 刷新AccessToken</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RefreshToken</span><span class="params">(aToken, rToken <span class="type">string</span>)</span></span> (newAToken, newRToken <span class="type">string</span>, err <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="comment">// refresh token⽆效直接返回</span></span><br><span class="line">    <span class="keyword">if</span> _, err = jwt.Parse(rToken, keyFunc); err != <span class="literal">nil</span> &#123;</span><br><span class="line">    	<span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 从旧access token中解析出claims数据</span></span><br><span class="line">    <span class="keyword">var</span> claims MyClaims</span><br><span class="line">    _, err = jwt.ParseWithClaims(aToken, &amp;claims, keyFunc)</span><br><span class="line">    v, _ := err.(*jwt.ValidationError)</span><br><span class="line">    <span class="comment">// 当access token是过期错误 并且 refresh token没有过期时就创建⼀个新的access token</span></span><br><span class="line">    <span class="keyword">if</span> v.Errors == jwt.ValidationErrorExpired &#123;</span><br><span class="line">    	<span class="keyword">return</span> GenToken(claims.UserID)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://www.liwenzhou.com/posts/Go/jwt_in_gin/">https://www.liwenzhou.com/posts/Go/jwt_in_gin/</a></p>
+
+            </div>
+
+            <!-- Post information -->
+            
+            
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+        <ul class="pagination d-block text-center">
+            
+            
+                <li class="next page-item d-inline"><a href="/2023/06/22/%E5%88%86%E5%B8%83%E5%BC%8FID%E7%94%9F%E6%88%90%E5%99%A8%EF%BC%88snowflake%E7%AE%97%E6%B3%95%EF%BC%89/" class="page-link float-right">Older  &rarr;</a></li>
+            
+        </ul>
+    </div>
+
+
+            
+                <!-- Comments -->
+                
+
+                
+
+            
+
+        </div>
+    </div>
+</article> 
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    <style>
+        #toc-content .toc-link::before {
+            background-color: transparent;
+            max-height: 25px;
+        }
+
+        #toc-content .toc-link.is-active-link::before {
+            background-color: #404040;
+        }
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <div class="ui-toc dropup scrollspy-body pull-right" style="right: 3%;">
+        <button type="button" class="toc-btn btn btn-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+            <i class="fas fa-list"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right p-2"  aria-labelledby="tocLabel">
+            <div class="toc-widget">
+                <div id="toc-content" class="text-truncate">
+                </div>
+            </div>
+            <div class="toc-menu pt-3 pl-4">
+                <a class="expand-toggle d-block py-1" href="#"><span class="expand-text">Expand all</span><span class="close-text" style="display: none;">Collapse all</span></a>
+                <a class="back-to-top d-block py-1" href="#">Back to top</a>
+                <a class="go-to-bottom d-block py-1" href="#">Go to bottom</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        tocbot.init({
+            // Where to render the table of contents.
+            tocSelector: '#toc-content',
+            // Where to grab the headings to build the table of contents.
+            contentSelector: 'article',
+            // Which headings to grab inside of the contentSelector element.
+            headingSelector: 'h1, h2, h3',
+            // For headings inside relative or absolute positioned containers within content.
+            hasInnerContainers: true,
+        });
+    </script>
+
+
+    
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 text-center">
+                <ul class="list-inline">
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <ul class="copyright footer-menu list-inline">
+                    
+                    
+                        <li class="list-inline-item">
+                            
+                            
+                            <a href="/">
+                                
+                                    Home
+                                
+                            </a>
+                        </li>
+                    
+                        <li class="list-inline-item">
+                            
+                                <span class="copyright-split">&nbsp;|&nbsp;</span>
+                            
+                            
+                            <a href="/archives">
+                                
+                                    Archives
+                                
+                            </a>
+                        </li>
+                    
+                        <li class="list-inline-item">
+                            
+                                <span class="copyright-split">&nbsp;|&nbsp;</span>
+                            
+                            
+                            <a href="/tags">
+                                
+                                    Tags
+                                
+                            </a>
+                        </li>
+                    
+                        <li class="list-inline-item">
+                            
+                                <span class="copyright-split">&nbsp;|&nbsp;</span>
+                            
+                            
+                            <a href="/categories">
+                                
+                                    Categories
+                                
+                            </a>
+                        </li>
+                    
+                        <li class="list-inline-item">
+                            
+                                <span class="copyright-split">&nbsp;|&nbsp;</span>
+                            
+                            
+                            <a href="/about">
+                                
+                                    About
+                                
+                            </a>
+                        </li>
+                    
+                </ul>
+                <p class="copyright footer-author">
+                    &copy; -2023 
+                    <a rel="external" class="copyright-link" href="" target="_blank">John Doe</a><br/>
+                    Powered by <a rel="external" class="copyright-link" href="https://hexo.io/" target="_blank">Hexo</a>  
+                    <span class="copyright-split">&nbsp;|&nbsp;&nbsp;</span>
+                    Theme <a rel="external" class="copyright-link" href="https://github.com/luswdev/hexo-theme-clean.git" target="_blank">Clean</a>
+                    
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    <!-- jQuery -->
+<script src="//cdn.jsdelivr.net/npm/jquery@2.1.4/dist/jquery.min.js"></script>
+
+<!-- For drop down -->
+<script src="//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+<!-- Gallery -->
+<script src="//cdn.jsdelivr.net/npm/lightgallery@1.6.11/dist/js/lightgallery-all.min.js"></script>
+<!-- Busuanzi -->
+
+
+<!-- Search script -->
+
+<script src="/js/search.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        searchFunc( '/search.xml' , 'searchInput', 'searchResult');
+    });
+</script>
+
+
+
+<script src="/js/main.js"></script>
+
+
+
+    <!-- Search Modal -->
+    <!-- Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content overflow-auto">
+            <div class="modal-header">
+                <input type="text" class="form-control" placeholder="Searching Keywords..." id="searchInput">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="searchResult">
+                    <div class="search-empty text-center text-muted p-5">
+                        <i class="far fa-meh"></i>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
