@@ -9,11 +9,9 @@
 
 
 
-    <meta name="description" content="用户认证HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同
-⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可
-⽤⽅案，并且各有千秋。
+    <meta name="description" content="用户认证HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可⽤⽅案，并且各有千秋。
 Cookie- Session 认证模式
-在 Web 应⽤发展的初期，"/>
+在 Web 应⽤发展的初期，⼤部"/>
 
 
 <!--Author-->
@@ -28,11 +26,9 @@ Cookie- Session 认证模式
 
 <!--Open Graph Description-->
 
-    <meta property="og:description" content="用户认证HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同
-⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可
-⽤⽅案，并且各有千秋。
+    <meta property="og:description" content="用户认证HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可⽤⽅案，并且各有千秋。
 Cookie- Session 认证模式
-在 Web 应⽤发展的初期，"/>
+在 Web 应⽤发展的初期，⼤部"/>
 
 
 <!--Open Graph Site Name-->
@@ -162,31 +158,31 @@ Cookie- Session 认证模式
                 
                 <meta name="referrer" content="no-referrer"/>
 
-<h2 id="用户认证"><a href="#用户认证" class="headerlink" title="用户认证"></a><strong>用户认证</strong></h2><p>HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同</p>
-<p>⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可</p>
-<p>⽤⽅案，并且各有千秋。</p>
+<h2 id="用户认证"><a href="#用户认证" class="headerlink" title="用户认证"></a><strong>用户认证</strong></h2><p>HTTP 是⼀个⽆状态的协议，⼀次请求结束后，下次在发送服务器就不知道这个请求是谁发来的了（同⼀个 IP 不代表同⼀个⽤户），在 Web 应⽤中，⽤户的认证和鉴权是⾮常重要的⼀环，实践中有多种可⽤⽅案，并且各有千秋。</p>
 <p><strong>Cookie- Session</strong> <strong>认证模式</strong></p>
 <p>在 Web 应⽤发展的初期，⼤部分采⽤基于Cookie-Session 的会话管理⽅式，逻辑如下。</p>
-<p>客户端使⽤⽤户名、密码进⾏认证</p>
-<p>服务端验证⽤户名、密码正确后⽣成并存储 Session，将 SessionID 通过 Cookie 返回给客户端</p>
-<p>客户端访问需要认证的接⼝时在 Cookie 中携带 SessionID</p>
-<p>服务端通过 SessionID 查找 Session 并进⾏鉴权，返回给客户端需要的数据</p>
+<ul>
+<li><p>客户端使⽤⽤户名、密码进⾏认证</p>
+</li>
+<li><p>服务端验证⽤户名、密码正确后⽣成并存储 Session，将 SessionID 通过 Cookie 返回给客户端</p>
+</li>
+<li><p>客户端访问需要认证的接⼝时在 Cookie 中携带 SessionID</p>
+</li>
+<li><p>服务端通过 SessionID 查找 Session 并进⾏鉴权，返回给客户端需要的数据</p>
+</li>
+</ul>
 <p><div class="img-item" data-src="https://pic1.zhimg.com/v2-7f07a20d4e87296db5305d332a562b34_r.jpg" data-sub-html=".caption"><img src="https://pic1.zhimg.com/v2-7f07a20d4e87296db5305d332a562b34_r.jpg" alt="cookie-session认证模式"><div class="img-caption d-block text-center"><span class="center-caption text-muted border-bottom">cookie-session认证模式</span></div></div></p>
 <p>基于 Session 的⽅式存在多种问题。</p>
 <ul>
-<li><p>服务端需要存储 Session，并且由于 Session 需要经常快速查找，通常存储在内存或内存数据库</p>
-<p>中，同时在线⽤户较多时需要占⽤⼤量的服务器资源。</p>
+<li><p>服务端需要存储 Session，并且由于 Session 需要经常快速查找，通常存储在内存或内存数据库中，同时在线⽤户较多时需要占⽤⼤量的服务器资源。</p>
 </li>
-<li><p>当需要扩展时，创建 Session 的服务器可能不是验证 Session 的服务器，所以还需要将所有</p>
-<p>Session 单独存储并共享。</p>
+<li><p>当需要扩展时，创建 Session 的服务器可能不是验证 Session 的服务器，所以还需要将所有Session 单独存储并共享。</p>
 </li>
-<li><p>由于客户端使⽤ Cookie 存储 SessionID，在跨域场景下需要进⾏兼容性处理，同时这种⽅式也难</p>
-<p>以防范 CSRF 攻击。</p>
+<li><p>由于客户端使⽤ Cookie 存储 SessionID，在跨域场景下需要进⾏兼容性处理，同时这种⽅式也难以防范 CSRF 攻击。</p>
 </li>
 </ul>
 <p><strong>Token</strong> <strong>认证模式</strong></p>
-<p>鉴于基于 Session 的会话管理⽅式存在上述多个缺点，基于 Token 的⽆状态会话管理⽅式诞⽣了，所谓</p>
-<p>⽆状态，就是服务端可以不再存储信息，甚⾄是不再存储 Session，逻辑如下。</p>
+<p>鉴于基于 Session 的会话管理⽅式存在上述多个缺点，基于 Token 的⽆状态会话管理⽅式诞⽣了，所谓⽆状态，就是服务端可以不再存储信息，甚⾄是不再存储 Session，逻辑如下。</p>
 <ul>
 <li>客户端使⽤⽤户名、密码进⾏认证</li>
 <li>服务端验证⽤户名、密码正确后⽣成 Token 返回给客户端</li>
@@ -195,10 +191,7 @@ Cookie- Session 认证模式
 </ul>
 <p><div class="img-item" data-src="https://img-blog.csdnimg.cn/6303cf4e0c2446b2afe847310264949b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pio5aSp55qE5YWJ,size_20,color_FFFFFF,t_70,g_se,x_16" data-sub-html=".caption"><img src="https://img-blog.csdnimg.cn/6303cf4e0c2446b2afe847310264949b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pio5aSp55qE5YWJ,size_20,color_FFFFFF,t_70,g_se,x_16" alt="token认证模式"><div class="img-caption d-block text-center"><span class="center-caption text-muted border-bottom">token认证模式</span></div></div></p>
 <p><strong>JWT介绍</strong></p>
-<p>JWT 是 JSON Web Token 的缩写，是为了在⽹络应⽤环境间传递声明⽽执⾏的⼀种基于JSON的开放标</p>
-<p>准（(RFC 7519)。JWT 本身没有定义任何技术实现，它只是定义了⼀种基于 Token 的会话管理的规则，</p>
-<p>涵盖 Token 需要包含的标准内容和 Token 的⽣成过程，特别适⽤于分布式站点的单点登录（SSO）场</p>
-<p>景。。</p>
+<p>JWT 是 JSON Web Token 的缩写，是为了在⽹络应⽤环境间传递声明⽽执⾏的⼀种基于JSON的开放标准（(RFC 7519)。JWT 本身没有定义任何技术实现，它只是定义了⼀种基于 Token 的会话管理的规则，涵盖 Token 需要包含的标准内容和 Token 的⽣成过程，特别适⽤于分布式站点的单点登录（SSO）场景。</p>
 <p>⼀个 JWT Token 就像这样：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyODAxODcyNzQ4ODMyMzU4NSwiZ</span><br><span class="line">XhwIjoxNTk0NTQwMjkxLCJpc3MiOiJibHVlYmVsbCJ9.lk_ZrAtYGCeZhK3iupHxP1kgjBJzQTVTtX</span><br><span class="line">0iZYFx9wU</span><br></pre></td></tr></table></figure>
 
@@ -208,8 +201,7 @@ Cookie- Session 认证模式
 <li>负载（Payload）</li>
 <li>签名（Signature）</li>
 </ul>
-<p>头部和负载以 JSON 形式存在，这就是 JWT 中的 JSON，三部分的内容都分别单独经过了 Base64 编</p>
-<p>码，以 <code>.</code> 拼接成⼀个 JWT Token。</p>
+<p>头部和负载以 JSON 形式存在，这就是 JWT 中的 JSON，三部分的内容都分别单独经过了 Base64 编码，以 <code>.</code> 拼接成⼀个 JWT Token。</p>
 <h3 id="在gin框架中使用JWT"><a href="#在gin框架中使用JWT" class="headerlink" title="在gin框架中使用JWT"></a>在gin框架中使用JWT</h3><p>使用开源社区库   github.com&#x2F;dgrijalva&#x2F;jwt-go</p>
 <p>注册路由，指定HandlerFunc：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r.POST(<span class="string">&quot;/auth&quot;</span>, authHandler)</span><br></pre></td></tr></table></figure>
